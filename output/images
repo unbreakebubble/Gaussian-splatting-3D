@@ -1,0 +1,1 @@
+# This directory is intended to hold the input images captured by a drone. The images should contain metadata such as GPS information for optimal processing by COLMAP.

@@ -1,0 +1,30 @@
+{
+  "cameras": [
+    {
+      "id": 1,
+      "model": "SIMPLE_RADIAL",
+      "width": 1920,
+      "height": 1080,
+      "params": [1000.0, 960.0, 540.0, 0.0]
+    },
+    {
+      "id": 2,
+      "model": "SIMPLE_RADIAL",
+      "width": 1920,
+      "height": 1080,
+      "params": [1000.0, 960.0, 540.0, 0.0]
+    }
+  ],
+  "poses": [
+    {
+      "camera_id": 1,
+      "translation": [0.0, 0.0, 0.0],
+      "rotation": [1.0, 0.0, 0.0, 0.0]
+    },
+    {
+      "camera_id": 2,
+      "translation": [1.0, 0.0, 0.0],
+      "rotation": [0.707, 0.0, 0.707, 0.0]
+    }
+  ]
+}
