@@ -19,12 +19,26 @@
   import { OrbitControls } from "https://unpkg.com/three@0.174.0/examples/jsm/controls/OrbitControls.js";
   import { SplatMesh } from "@sparkjsdev/spark";
 
+  import { GUI } from 'https://unpkg.com/three@0.174.0/examples/jsm/libs/lil-gui.module.min.js';
+
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000); // Black background
+  
+  // Add GUI controls
+  const gui = new GUI();
+  const params = {
+    exposure: 1.0,
+    invertY: false
+  };
+  
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
   camera.position.set(0, 0, 5);
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0; // Adjust this value to control exposure
+  renderer.outputEncoding = THREE.sRGBEncoding;
   document.body.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -34,6 +48,15 @@
   const splatURL = "output/splat.ply";
   const splatMesh = new SplatMesh({ url: splatURL });
   scene.add(splatMesh);
+
+  // Add GUI controls
+  gui.add(params, 'exposure', 0.1, 5.0, 0.1).onChange((value) => {
+    renderer.toneMappingExposure = value;
+  });
+  
+  gui.add(params, 'invertY').onChange((value) => {
+    splatMesh.scale.y = value ? -1 : 1;
+  });
 
   renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
