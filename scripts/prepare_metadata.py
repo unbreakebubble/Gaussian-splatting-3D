@@ -1,6 +1,7 @@
 import os
 import json
 import glob
+import math
 
 def extract_metadata(images_path):
     """Extract metadata from JSON files and write COLMAP-compatible format."""
@@ -63,7 +64,12 @@ def extract_metadata(images_path):
             roll = float(orientation.get("Roll", 0))
             
             # Camera calibration info if available
-            focal_length = float(metadata.get("FocalLength", 0))
+            focal_raw = sample_image.get("FocalLength", "3700/1000")
+            if isinstance(focal_raw, str) and '/' in focal_raw:
+                num, denom = map(float, focal_raw.split('/'))
+                focal = num / denom
+            else:
+                focal = float(focal_raw)
             
             image_metadata.append({
                 "image_name": os.path.basename(img_path),
@@ -73,7 +79,7 @@ def extract_metadata(images_path):
                 "yaw": yaw,
                 "pitch": pitch,
                 "roll": roll,
-                "focal_length": focal_length
+                "focal_length": focal
             })
     
     return image_metadata
@@ -98,9 +104,9 @@ def write_colmap_format(metadata, output_dir):
         for idx, data in enumerate(metadata):
             # Convert NED orientation to quaternion (simplified)
             # In real implementation, you'd want a proper Euler to quaternion conversion
-            yaw_rad = math.radians(data['yaw'])
-            pitch_rad = math.radians(data['pitch'])
-            roll_rad = math.radians(data['roll'])
+            # yaw_rad = math.radians(data['yaw'])
+            # pitch_rad = math.radians(data['pitch'])
+            # roll_rad = math.radians(data['roll'])
             
             # Simplified position conversion from GPS
             # In real implementation, you'd want proper GPS to local coordinate conversion
