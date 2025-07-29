@@ -69,7 +69,6 @@ def main():
         "--database_path", os.path.join(output_path, "database.db"),
         "--SiftMatching.guided_matching", "1",           # Enable guided matching for better accuracy
         "--SiftMatching.max_num_matches", "32000",       # Increase max matches for better coverage
-        "--SiftMatching.min_inlier_ratio", "0.25"        # Lower inlier ratio for drone imagery
     ]
     if args.use_gpu:
         match_cmd += ["--SiftMatching.use_gpu", "1"]
@@ -120,9 +119,6 @@ def main():
             opensplat_exe, 
             output_path,
             "-n", "4000",              # Increase number of iterations
-            "--learning-rate", "0.001", # Lower learning rate for stability
-            "--density-threshold", "0.05",  # Lower density threshold for more complete reconstruction
-            "--position-lr-init", "0.00016" # Fine-tune position learning rate
         ]
         run_cmd(opensplat_cmd)
         print("OpenSplat completed. Results saved to splat.ply.")
