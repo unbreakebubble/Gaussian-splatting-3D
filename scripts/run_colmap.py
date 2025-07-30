@@ -86,6 +86,9 @@ def main():
             opensplat_exe, 
             output_path,
             "--output", os.path.join(output_path, "splat.ply"),
+            "--reset-alpha-every","50",
+            # "--num-downscales","0",
+            # "--resolution-schedule", "5000",
             "-n", "10000",
             "-s", "1000",       # Increase number of iterations
         ]
